@@ -1,46 +1,59 @@
-// 1.how to compare to JSON have the same properties without order?
-let Obj1 = {
-    name: "Person 1",
-    age: 5,
-  };
-  
-let Obj2 = {
-    age: 5,
-    name: "Person 1"
-  };
-  
-  console.log(jsonEqual(Obj1,Obj2 )); 
-  
-// var request = new XMLHttpRequest();
-// request.open("GET","https://restcountries.com/v3.1/all");
-// request.send();
-// request.onload=function(){
-// var result=JSON.parse(request.response) ;
-// console.log(result);
-// }
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Task 4</title>
+    </head>
+
+    <body>
+        <script>
+
+//1.compare 2 object have the same porperties and value 
+       function jsonEqual(Object1, Object2) {
+          return JSON.stringify(Object.entries(Object1).sort()) === JSON.stringify(Object.entries(Object2).sort());
+        }
+
+        let Obj1 = {
+        name: "Person 1",
+        age: 5,
+        };
+
+        let Obj2 = {
+        age: 5,
+        name: "Person 1"
+        };
+
+        if(jsonEqual(Obj1, Obj2)){
+        console.log("keys and values are same in Both object")
+        }else{
+        console.log("keys and values are Not same in Both object")
+        }
 
 
- // XMLHTTPREQUEST is an browser apivar getCountry
-// Request = new XMLHttpRequest();// CONSTRUCTING A REQUESTgetCountry 
-// Request.open("GET", "https://restcountries.com/v3.1/all")// SEND THE REQUEST TO SERVERgetCountry
-// Request.send();// GET THE RESPONSE FROM SERVERgetCountry
-// Request.onload = function () {var data = JSON.parse(this.responseText);printData(data);}
+// 2. Display  All contries flags 
+           let xhr = new XMLHttpRequest();
+           xhr.open('GET', 'https://restcountries.com/v3.1/all', true);
+           xhr.onload = function() {
+           let resp = JSON.parse(this.responseText);
+           for (let i = 0; i < resp.length; i++) {
+           console.log(resp[i].flags.png);
+           }
+           };
+           xhr.send();
+//3. display contries name,Region,sub region,Population       
+        let xhr = new XMLHttpRequest();
+           xhr.open('GET', 'https://restcountries.com/v3.1/all', true);
+           xhr.onload = function() {
+           let resp = JSON.parse(this.responseText);
+           for (let i = 0; i < resp.length; i++) {
+           console.log(`contries -${resp[i].continents[0]}  ,Region- ${resp[i].region}  ,Sub region - ${resp[i].subregion},Population- ${resp[i].population}`);
+           }
+           };
+           xhr.send();
+        
 
-// 2.use the rest countries  and display all the country flags in the console.
-function printData(data) {
-    if(data.length > 0) {for(let i= 0; i < data.length; i++) {
-        const { name = {}, region = '', subregion = '', population = 0 } = data[i];
-        console.log(name.common, region, subregion, population);
-    }}}
-fetch('https://restcountries.com/v3.1/all')
-.then((response) => response.json())
-.then((res) => printData(res));
-// 3.use the same rest countries and print all countries names,region,sub-region and population
-function printData(data) {
-    if(data.length > 0) {for(let i= 0; i < data.length; i++) {
-        const { name = {}, region = '', subregion = '', population = 0 ,flags={}} = data[i];
-        console.log(name.common, region, subregion, population,flags.svg);
-    }}}
-fetch('https://restcountries.com/v3.1/all')
-.then((response) => response.json())
-.then((res) => printData(res));
+
+
+            
+        </script>
+    </body>
+</html>
